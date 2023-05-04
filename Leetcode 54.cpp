@@ -1,23 +1,41 @@
 class Solution {
 public:
-    ListNode* rotateRight(ListNode* head, int k) {
-        if(!head || !head->next || k == 0) return head; // edge cases
-
-        int length = 1; // length of the list
-        ListNode* curr = head;
-        while(curr->next) {
-            length++;
-            curr = curr->next;
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        int rowBegin = 0, rowEnd = matrix.size()-1;
+        int colBegin = 0, colEnd = matrix[0].size()-1;
+        vector<int> result;
+        
+        while(rowBegin <= rowEnd && colBegin <= colEnd) {
+            // Traverse right
+            for(int j=colBegin; j<=colEnd; j++) {
+                result.push_back(matrix[rowBegin][j]);
+            }
+            rowBegin++;
+            
+            // Traverse down
+            for(int i=rowBegin; i<=rowEnd; i++) {
+                result.push_back(matrix[i][colEnd]);
+            }
+            colEnd--;
+            
+            // Traverse left
+            if(rowBegin <= rowEnd) {
+                for(int j=colEnd; j>=colBegin; j--) {
+                    result.push_back(matrix[rowEnd][j]);
+                }
+            }
+            rowEnd--;
+            
+            // Traverse up
+            if(colBegin <= colEnd) {
+                for(int i=rowEnd; i>=rowBegin; i--) {
+                    result.push_back(matrix[i][colBegin]);
+                }
+            }
+            colBegin++;
         }
-        curr->next = head; // make the list circular
-
-        k %= length; // reduce the number of rotations
-        for(int i = 0; i < length - k; i++) curr = curr->next; // find the new tail
-
-        ListNode* new_head = curr->next; // set the new head
-        curr->next = nullptr; // break the circle
-
-        return new_head;
+        
+        return result;
     }
 };
 
