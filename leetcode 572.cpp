@@ -1,19 +1,30 @@
 class Solution {
 public:
-    int findDuplicate(vector<int>& nums) {
-        int slow = nums[0];
-        int fast = nums[0];
-        
-        do {
-            slow = nums[slow];
-            fast = nums[nums[fast]];
-        } while (slow != fast);
-        fast = nums[0];
-        while (slow != fast) {
-            slow = nums[slow];
-            fast = nums[fast];
+    bool isSubtree(TreeNode* s, TreeNode* t) {
+        if (!s) {
+            return false;
         }
         
-        return slow;
+        if (isSameTree(s, t)) {
+            return true;
+        }
+        
+        return isSubtree(s->left, t) || isSubtree(s->right, t);
+    }
+    
+    bool isSameTree(TreeNode* p, TreeNode* q) {
+        if (!p && !q) {
+            return true;
+        }
+        
+        if (!p || !q) {
+            return false;
+        }
+        
+        if (p->val != q->val) {
+            return false;
+        }
+        
+        return isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
     }
 };
