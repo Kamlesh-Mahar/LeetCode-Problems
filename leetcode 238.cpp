@@ -6,10 +6,8 @@ public:
         int n = nums.size();
         
         vector<int> result(n, 1);
-        int leftProduct = 1;
-        for (int i = 0; i < n; i++) {
-            result[i] *= leftProduct;
-            leftProduct *= nums[i];
+        for (int i = 1; i < n; i++) {
+            result[i] = result[i - 1] * nums[i - 1];
         }
         int rightProduct = 1;
         for (int i = n - 1; i >= 0; i--) {
